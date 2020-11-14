@@ -1,0 +1,34 @@
+function schoolRegister(input) {
+    let list = {};
+    input = input.map(x => x.split(`, `));
+    for (let a of input) {
+        let [arg1, arg2, arg3] = a;
+        let [studentName, name] = arg1.split(`: `);
+        let [curGrade, grade] = arg2.split(`: `);
+        let [index, avarageScore] = arg3.split(`: `);
+        if (avarageScore >= 3) {
+            if (!list.hasOwnProperty(grade)) {
+                list[grade] = {};
+            }
+            if (!list[grade].hasOwnProperty(name)) {
+                list[grade][name] = [];
+            }
+            list[grade][name].push(avarageScore);
+        }
+    }
+    let sortedGrades = Object.keys(list).sort((a, b) => a - b);
+
+    for (let element of sortedGrades) {
+
+        let keys = Object.keys(list[element]);
+        keys = keys.join(`, `);
+        let avScore = Object.values(list[element]);
+        avScore = avScore.join(`,`).split(`,`).map(Number).reduce((a, b) => a + b, 0) / Object.values(list[element]).length;
+        element = Number(element) + 1;
+        console.log(`${element} Grade`);
+        console.log(`List of students: ${keys}`);
+        console.log(`Average annual grade from last year: ${avScore.toFixed(2)}`);
+        console.log();
+    }
+
+}
